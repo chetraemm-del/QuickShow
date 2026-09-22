@@ -10,6 +10,7 @@ import bookingRouter from "./routes/booking.route.js";
 import adminRouter from "./routes/admin.route.js";
 import userRouter from "./routes/user.route.js";
 import { stripeWebhooks } from "./controllers/StripeWebhooks.js";
+import { syncAuthenticatedUser } from "./services/userSync.js";
 
 const app = express();
 const port = 3000;
@@ -20,6 +21,7 @@ app.use("/api/stripe", express.raw({ type: "application/json" }), stripeWebhooks
 app.use(express.json());
 app.use(cors());
 app.use(clerkMiddleware());
+app.use(syncAuthenticatedUser);
 
 //API Routes
 app.get("/", (req, res) => res.send("Server is Live!"));
